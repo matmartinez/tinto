@@ -32,6 +32,7 @@
     task.onerror = taskHandler;
     task.onabort = taskHandler;
     
+    task.crossOrigin = "anonymous";
     task.src = URL;
   };
   

@@ -113,8 +113,14 @@
     var buffer = this._buffer;
     if (!buffer) {
        buffer = document.createElement("canvas");
-       buffer.width = src.width;
-       buffer.height = src.height;
+       
+       if (typeof src.naturalWidth != 'undefined' && typeof src.naturalHeight != 'undefined') {
+         buffer.width = src.naturalWidth;
+         buffer.height = src.naturalHeight;
+       } else {
+         buffer.width = src.width;
+         buffer.height = src.height;
+       }
        
        this._buffer = buffer;
     }

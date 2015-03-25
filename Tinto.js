@@ -1,6 +1,7 @@
 (function(document, window){  
-  // Constant for the destination in blend mode.
+  // Blend modes.
   var kBlendModeDestinationIn = "destination-in";
+  var kBlendModeSourceOver = "source-over";
   
   // Constructor.
   var Tinto = function(source, requestFinishedHandler){
@@ -68,6 +69,7 @@
     context.clearRect(0, 0, width, height);
     
     // Set the fill color.
+    context.globalCompositeOperation = kBlendModeSourceOver;
     context.fillStyle = color;
     
     // Fill the context.

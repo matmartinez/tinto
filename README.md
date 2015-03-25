@@ -24,7 +24,7 @@ var tintoObject = new Tinto(imageURL, function(){
 });
 ```
 # Reference
-Most of your common needs should be poined in the previous examples. Tinto offers some additional options as well.
+Public methods are listed as follows. Don't forget to check the [example](Example.html) to see Tinto in action.
 
 ##  Constructor
 - **Tinto(template, requestFinishedHandler?)**.

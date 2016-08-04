@@ -6,29 +6,42 @@ Apply tint color to web images, on the fly.
 # Usage
 First, create a Tinto object using an image **template**. Usually this is a DOM element in your interface. Then finally *(yes, there isn't much else to it)*, use this object to generate tinted images as you need them.
 
-In the following example an `<img>` is tinted. The image element itself can be used as a template:
+In the following example an `<img>` contents are tinted:
 
 ```js
-var target = document.getElementById('img-ui-element');
-var tintoObject = new Tinto(target);
-target.src = tintoObject.imageDataWithTintColor('#FF404C');
+// The element we want to use as a template. This is an <img>.
+var element = document.getElementById('img-ui-element');
+
+// Create a Tinto from `element`. This object can tint new images.
+var tinto = new Tinto(element);
+
+// Update `src` so it displays a tinted image. 
+element.src = tinto.imageDataWithTintColor('#FF404C');
 ```
 
-A template image can also be an **URL**. This is particullary useful when dealing with server images in a data model, for example. The image is tinted from a completion callback passed with the URL.
+A template image can also be created from an **URL**. This is particullary useful if you're dealing with server images from a data model. Tinted images can be created from the completion callback.
 
 ```js
 var imageURL = 'http://example.foo/image.png';
-var tintoObject = new Tinto(imageURL, function(){
-	var imageData = tintoObject.imageDataWithTintColor('#FF404C');
-	// ...use imageData accordingly on your interface.
+
+Tinto.fromURL(imageURL, function(tinto){
+    // Create a new tinted image
+	var imageWithColor = tinto.imageDataWithTintColor('#FF404C');
+	
+	// ...assume `element` is an <img> on your interface...
+	element.src = imageWithColor;
 });
 ```
 # Reference
 Public methods are listed as follows. Don't forget to check the [example](Example.html) to see Tinto in action.
 
+## Factory methods
+- **Tinto.fromURL(URL, callback)**.
+Begins an asynchronous task to create a Tinto object from an URL.  A callback function with be called when finished. Use this method instead of the constructor if you want Tinto to load your images (highly recommended).
+
 ##  Constructor
-- **Tinto(template, requestFinishedHandler?)**.
-Creates a new Tinto object instance with the given `template`, which is typically an `<img>` element. If an image's URL is given as `template`, the `requestFinishedHandler` function will be executed when the image download is finished.
+- **Tinto(sourceImage)**.
+Creates a new Tinto object instance with a given `sourceImage`, which is typically an `<img>` element. Be extra careful with your images! They need to be already loaded. Otherwise, *your tinted images may be blank*. 
 
 ## Methods
 - **.isImageLoaded()**.

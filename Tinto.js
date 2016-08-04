@@ -4,36 +4,53 @@
   var kBlendModeSourceOver = "source-over";
   
   // Constructor.
-  var Tinto = function(source, requestFinishedHandler){
-    // If using a string, create a request.
-    if (typeof source == 'string') {
-      this.setSourceImageWithURL(source, requestFinishedHandler);
-    }
-    // Use the element directly.
-    else {
-      this.sourceImage = source;
+  // Takes a single image that should be ready to draw.
+  // Note: Use the Tinto.fromURL factory function if you want to load images from the Interwebs.
+  var Tinto = function(sourceImage){
+    this.sourceImage = sourceImage;
+    
+    if (!this.isImageLoaded()) {
+        console.warn("Tinto: The source image is not loaded yet, so it may not be displayed.");
     }
   }
   
-  // Sets the source image from an URL.
-  Tinto.prototype.setSourceImageWithURL = function(URL, handler){
-    var task = new Image();
-    var self = this;
-    
-    var taskHandler = function(){
-      self.sourceImage = task;
+  // Factory method will create a Tinto instance from an async request.
+  // Note: XMLHttpRequest is used because plays friendly with IE.
+  //       Be careful when loading images by yourself otherwise.
+  Tinto.fromURL = function(url, handler){
       
-      if (handler) {
-        handler();
-      }
+    var completionHandler = function(img){
+        var tinto = undefined;
+        if (img) {
+            tinto = new Tinto(img);
+        }
+        
+        if (handler) {
+            handler(tinto);
+        }
     };
     
-    task.onload = taskHandler;
-    task.onerror = taskHandler;
-    task.onabort = taskHandler;
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        var img = new Image();
+        var url = URL.createObjectURL(this.response);
+        
+        var imageHandler = function(){
+            completionHandler(img);
+            
+            URL.revokeObjectURL(url);
+        };
+        
+        img.onload = imageHandler;
+        img.onerror = imageHandler;
+        img.src = url;
+    };
+    xhr.onerror = completionHandler;
+    xhr.onabort = completionHandler;
     
-    task.crossOrigin = "anonymous";
-    task.src = URL;
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.send();
   };
   
   // Returns true if the source image is loaded.

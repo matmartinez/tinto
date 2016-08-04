@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Tinto Example</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		
-		<script src="Tinto.js"></script>
-		<script>
-  		
-  		function example(){
-    		var original = document.getElementById("original");
-    		var red = document.getElementById("red");
-    		var blue = document.getElementById("blue");
-    		
-    		original.addEventListener("load", function(){
-      		var tintoObject = new Tinto(original);
-      		
-      		red.src = tintoObject.imageDataWithTintColor("#ff3b30");
-      		blue.src = tintoObject.imageDataWithTintColor("#007aff");
-    		});
-  		};
-  		
-  		document.addEventListener("DOMContentLoaded", example);
-  		
-		</script>
-		<style>
-  		* {
-    		margin: 0px;
-    		padding: 0px;
-  		}
-  		
-  		html, body {
-    		width: 100%;
-    		height: 100%;
-    		
-    		min-width: 800px;
-  		}
-  		
-  		.example {
-    		display: table;
-    		width: 100%;
-    		height: 100%;
-    		
-    		background-color: #f2f2f2;
-  		}
-  		
-  		.example ol {
-    		display: table-cell;
-    		text-align: center;
-    		vertical-align: middle;
-  		}
-  		
-  		.example figure {
-    		display: inline-block;
-    		position: relative;
-    		padding: 60px 67px;
-    		
-    		background-color: white;
-    		box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1), 0px 0px 1px rgba(0, 0, 0, 0.1);
-    		border-radius: 16px;
-    		
-    		margin-right: 40px;
-    		
-    		background-image:
+    <head>
+        <title>Tinto Example</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <script src="Tinto.js"></script>
+        <script>
+          
+          function example(){
+            var original = document.getElementById("original");
+            var red = document.getElementById("red");
+            var blue = document.getElementById("blue");
+            
+            var URL = original.src;
+                
+            Tinto.fromURL(URL, function(tinto){
+                red.src = tinto.imageDataWithTintColor("#ff3b30");
+                blue.src = tinto.imageDataWithTintColor("#007aff");
+            });
+          };
+          
+          document.addEventListener("DOMContentLoaded", example);
+          
+        </script>
+        <style>
+          * {
+            margin: 0px;
+            padding: 0px;
+          }
+          
+          html, body {
+            width: 100%;
+            height: 100%;
+            
+            min-width: 800px;
+          }
+          
+          .example {
+            display: table;
+            width: 100%;
+            height: 100%;
+            
+            background-color: #f2f2f2;
+          }
+          
+          .example ol {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+          }
+          
+          .example figure {
+            display: inline-block;
+            position: relative;
+            padding: 60px 67px;
+            
+            background-color: white;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1), 0px 0px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            
+            margin-right: 40px;
+            
+            background-image:
           -moz-linear-gradient(45deg, #ededef 25%, transparent 25%), 
           -moz-linear-gradient(-45deg, #ededef 25%, transparent 25%),
           -moz-linear-gradient(45deg, transparent 75%, #ededef 75%),
@@ -77,47 +77,47 @@
         -webkit-background-size: 42px 43px; /* override value for shitty webkit */
         
         background-position:0 0, 21px 0, 21px -21px, 0px 21px;
-  		}
-  		
-  		.example figure:last-child {
-    		margin-right: 0px;
-  		}
-  		
-  		.example figure figcaption {
-    		position: absolute;
-    		text-align: center;
-    		
-    		-webkit-font-smoothing:antialiased;
-    		
-    		font-size: 14px;
-    		font-family: "Helvetica Neue", sans-serif;
-    		line-height: 24px;
-    		color: #888b90;
-    		
-    		left: 0px;
-    		right: 0px;
-    		bottom: -44px;
-  		}
-		</style>
-	</head>
-	<body>
-  	<div class="example">
-    	<ol>
-      	<figure>
-      	  <img id="original" src="Example.png" width="75" height="90">
-      	  <figcaption>The template image</figcaption>
-      	</figure>
-      	
-      	<figure>
-      	  <img id="red" width="75" height="90">
-      	  <figcaption>Image with red tint</figcaption>
-      	</figure>
-      	
-      	<figure>
-      	  <img id="blue" width="75" height="90">
-      	  <figcaption>Image with blue tint</figcaption>
-      	</figure>
-    	</ol>
-  	</div>
-	</body>
+          }
+          
+          .example figure:last-child {
+            margin-right: 0px;
+          }
+          
+          .example figure figcaption {
+            position: absolute;
+            text-align: center;
+            
+            -webkit-font-smoothing:antialiased;
+            
+            font-size: 14px;
+            font-family: "Helvetica Neue", sans-serif;
+            line-height: 24px;
+            color: #888b90;
+            
+            left: 0px;
+            right: 0px;
+            bottom: -44px;
+          }
+        </style>
+    </head>
+    <body>
+      <div class="example">
+        <ol>
+          <figure>
+            <img id="original" src="Example.png" width="75" height="90">
+            <figcaption>The template image</figcaption>
+          </figure>
+          
+          <figure>
+            <img id="red" width="75" height="90">
+            <figcaption>Image with red tint</figcaption>
+          </figure>
+          
+          <figure>
+            <img id="blue" width="75" height="90">
+            <figcaption>Image with blue tint</figcaption>
+          </figure>
+        </ol>
+      </div>
+    </body>
 </html>

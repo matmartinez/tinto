@@ -51,6 +51,8 @@
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
     xhr.send();
+    
+    return xhr;
   };
   
   // Returns true if the source image is loaded.

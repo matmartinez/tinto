@@ -15,44 +15,40 @@
   }
   
   // Factory method will create a Tinto instance from an async request.
-  // Note: XMLHttpRequest is used because plays friendly with IE.
-  //       Be careful when loading images by yourself otherwise.
   Tinto.fromURL = function(url, handler){
+    
+    function TintoImageRequest(src, completionHandler){
+      var image = new Image();
+      image.crossOrigin = "Anonymous";
+      image.onload = function(){
+        completionHandler(image);
+      };
+      image.onerror = function(){
+        completionHandler(undefined);
+      };
       
-    var completionHandler = function(img){
-        var tinto = undefined;
-        if (img) {
-            tinto = new Tinto(img);
-        }
-        
-        if (handler) {
-            handler(tinto);
-        }
+      image.src = src;
+      
+      this.image = image;
+    }
+    
+    TintoImageRequest.prototype.abort = function(){
+      this.image.onload = null;
+      this.image.onerror = null;
     };
     
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        var img = new Image();
-        var url = URL.createObjectURL(this.response);
-        
-        var imageHandler = function(){
-            completionHandler(img);
-            
-            URL.revokeObjectURL(url);
-        };
-        
-        img.onload = imageHandler;
-        img.onerror = imageHandler;
-        img.src = url;
-    };
-    xhr.onerror = completionHandler;
-    xhr.onabort = completionHandler;
+    var operation = new TintoImageRequest(url, function(img){
+      var tinto = undefined;
+      if (img) {
+        tinto = new Tinto(img);
+      }
+      
+      if (handler) {
+        handler(tinto);
+      }
+    });
     
-    xhr.open('GET', url, true);
-    xhr.responseType = 'blob';
-    xhr.send();
-    
-    return xhr;
+    return operation;
   };
   
   // Returns true if the source image is loaded.
